@@ -1,36 +1,9 @@
-# TP3_HIBERNATE-
+<img width="1860" height="841" alt="image" src="https://github.com/user-attachments/assets/a78a4e96-9da2-424b-98eb-e7c999639b01" />
+<img width="1865" height="808" alt="image" src="https://github.com/user-attachments/assets/407b1011-d40c-41cf-9f29-ffd0c6fd35ee" />
+<img width="1918" height="636" alt="image" src="https://github.com/user-attachments/assets/699c43e9-6069-4b15-b625-088ecd52e9d2" />
+<img width="1918" height="597" alt="image" src="https://github.com/user-attachments/assets/40deb37a-ed8c-4136-8a12-db96fe8869a8" />
+<img width="1918" height="832" alt="image" src="https://github.com/user-attachments/assets/c273e4ae-e5ec-413a-9819-81d0b82a5a36" />
 
-Gestion de reservations de salles avec **JPA / Hibernate 5.4** et une base **H2 en memoire** :
-relations entre entites, cascades et suppression des orphelins.
 
-## Modele (`com.example.model`)
 
-| Entite | Role | Relations |
-|---|---|---|
-| `Utilisateur` | personne qui reserve | `OneToMany` -> `Reservation` (cascade ALL + orphanRemoval) |
-| `Reservation` | creneau `[heureDebut, heureFin[` | `ManyToOne` -> `Utilisateur` (titulaire), `ManyToOne` -> `Salle` |
-| `Salle` | salle reservable | `ManyToOne` -> `Batiment`, `ManyToMany` -> `Equipement` (table `salle_equipement`) |
-| `Equipement` | materiel partage entre salles | cote inverse du `ManyToMany` |
-| `Batiment` | regroupe les salles | `OneToMany` -> `Salle` |
 
-Choix de cascade :
-- supprimer un utilisateur supprime ses reservations ;
-- retirer une reservation de `listeReservations` la supprime en base (`orphanRemoval`) ;
-- pas de `REMOVE` vers `Salle`, `Equipement`, `Batiment` : ces donnees sont partagees.
-
-## Exercices supplementaires (`com.example.service.ReservationService`)
-- validation des dates (`@PrePersist` / `@PreUpdate` dans `Reservation`) ;
-- disponibilite d'une salle sur un creneau ;
-- requetes JPQL : reservations d'un utilisateur, salles equipees d'un equipement, salles d'un batiment ;
-- gestion des erreurs avec rollback de la transaction.
-
-## Lancer la demo
-
-```
-mvn clean compile exec:java
-```
-
-ou executer `com.example.App` depuis l'IDE. Les requetes SQL generees s'affichent dans la console
-(`hibernate.show_sql` / `hibernate.format_sql`).
-
-Le code du TP2 (DAO generique + service, package `com.example.jpa`) est conserve avec ses tests : `mvn test`.

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Connexion</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main>
+    <div class="boite-acces">
+        <h1>Connexion</h1>
+        <p class="chapeau">Comptes enregistrés dans MySQL.</p>
+
+        <!-- Le même message couvre mot de passe erroné et compte désactivé -->
+        <p class="erreur" th:if="${param.error}">Identifiants incorrects ou compte désactivé.</p>
+        <p class="succes" th:if="${param.logout}">Vous êtes déconnecté.</p>
+        <p class="succes" th:if="${param.registered}">Compte créé : vous pouvez vous connecter.</p>
+
+        <form th:action="@{/login}" method="post">
+            <label for="nomUtilisateur">Nom d'utilisateur</label>
+            <input type="text" id="nomUtilisateur" name="nomUtilisateur" autocomplete="username" required autofocus>
+
+            <label for="motDePasse">Mot de passe</label>
+            <input type="password" id="motDePasse" name="motDePasse" autocomplete="current-password" required>
+
+            <button type="submit">Se connecter</button>
+        </form>
+        <p class="lien-bas"><a th:href="@{/register}">Créer un compte</a></p>
+    </div>
+</main>
+</body>
+</html>

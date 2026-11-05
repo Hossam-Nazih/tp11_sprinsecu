@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<body>
+<!-- POST avec jeton CSRF, seule forme acceptée par le filtre de déconnexion -->
+<form th:fragment="deconnexion" th:action="@{/logout}" method="post">
+    <button type="submit" class="neutre">Se déconnecter</button>
+</form>
+</body>
+</html>

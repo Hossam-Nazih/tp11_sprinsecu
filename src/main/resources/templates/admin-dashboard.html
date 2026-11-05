@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Espace Administrateur</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main>
+    <h1>Espace Administrateur</h1>
+    <p class="chapeau" th:text="|Réservé au rôle ADMIN. Connecté en tant que ${nomConnecte}.|"></p>
+
+    <div class="panneau menu">
+        <a th:href="@{/home}">Accueil</a>
+        <a th:href="@{/user/dashboard}">Espace Utilisateur</a>
+        <form th:replace="~{fragments/communs :: deconnexion}"></form>
+    </div>
+
+    <section class="panneau">
+        <h2>Comptes</h2>
+        <p class="erreur" th:if="${erreur}" th:text="${erreur}"></p>
+        <p class="succes" th:if="${succes}" th:text="${succes}"></p>
+        <div class="defilement">
+            <table>
+                <thead>
+                <tr>
+                    <th>Nom d'utilisateur</th>
+                    <th>Rôles</th>
+                    <th>État</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="compte : ${comptes}">
+                    <td th:text="${compte.nomUtilisateur}"></td>
+                    <td>
+                        <div th:each="role : ${compte.roles}"
+                             th:text="${#strings.replace(role.nomRole, 'ROLE_', '')}"></div>
+                    </td>
+                    <td th:class="${compte.compteActif} ? 'etat-actif' : 'etat-inactif'"
+                        th:text="${compte.compteActif} ? 'Actif' : 'Désactivé'"></td>
+                    <td>
+                        <!-- Le service refuse aussi cette action : ce masquage n'est qu'un confort -->
+                        <span class="discret" th:if="${compte.nomUtilisateur == nomConnecte}">Votre compte</span>
+                        <form th:unless="${compte.nomUtilisateur == nomConnecte}"
+                              th:action="@{/admin/comptes/{id}/activation(id=${compte.idUtilisateur})}" method="post">
+                            <button type="submit" class="compact" th:classappend="${compte.compteActif} ? 'alerte'"
+                                    th:text="${compte.compteActif} ? 'Désactiver' : 'Activer'"></button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

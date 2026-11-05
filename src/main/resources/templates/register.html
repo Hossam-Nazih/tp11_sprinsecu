@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inscription</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main>
+    <div class="boite-acces">
+        <h1>Inscription</h1>
+        <p class="chapeau">Un nouveau compte reçoit le rôle USER.</p>
+
+        <ul class="erreur" th:if="${erreurs}">
+            <li th:each="erreur : ${erreurs}" th:text="${erreur}"></li>
+        </ul>
+
+        <!-- Après une erreur, les champs sont réaffichés, sauf le mot de passe -->
+        <form th:action="@{/register}" method="post">
+            <label for="nomUtilisateur">Nom d'utilisateur</label>
+            <input type="text" id="nomUtilisateur" name="nomUtilisateur" autocomplete="username"
+                   th:value="${formulaire?.nomUtilisateur}" required>
+
+            <label for="motDePasse">Mot de passe</label>
+            <input type="password" id="motDePasse" name="motDePasse" autocomplete="new-password" required>
+
+            <label for="nomComplet">Nom complet</label>
+            <input type="text" id="nomComplet" name="nomComplet" autocomplete="name"
+                   th:value="${formulaire?.nomComplet}" required>
+
+            <label for="adresseEmail">Adresse e-mail</label>
+            <input type="text" id="adresseEmail" name="adresseEmail" autocomplete="email"
+                   th:value="${formulaire?.adresseEmail}" required>
+
+            <button type="submit">Créer le compte</button>
+        </form>
+        <p class="lien-bas"><a th:href="@{/login}">J'ai déjà un compte</a></p>
+    </div>
+</main>
+</body>
+</html>

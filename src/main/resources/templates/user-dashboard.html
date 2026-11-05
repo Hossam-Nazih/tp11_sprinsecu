@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Espace Utilisateur</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main>
+    <h1>Espace Utilisateur</h1>
+    <p class="chapeau" th:text="|Rôles USER et ADMIN. Connecté en tant que ${nomConnecte}.|"></p>
+
+    <div class="panneau menu">
+        <a th:href="@{/home}">Accueil</a>
+        <form th:replace="~{fragments/communs :: deconnexion}"></form>
+    </div>
+
+    <section class="panneau">
+        <h2>Mon profil</h2>
+        <p class="erreur" th:if="${erreur}" th:text="${erreur}"></p>
+        <p class="succes" th:if="${succes}" th:text="${succes}"></p>
+        <form th:action="@{/user/profil}" method="post">
+            <label for="nomComplet">Nom complet</label>
+            <input type="text" id="nomComplet" name="nomComplet" th:value="${profil?.nomComplet}">
+
+            <label for="adresseEmail">Adresse e-mail</label>
+            <input type="text" id="adresseEmail" name="adresseEmail" th:value="${profil?.adresseEmail}">
+
+            <button type="submit">Enregistrer</button>
+        </form>
+        <p class="discret lien-bas" th:if="${profil}"
+           th:text="|Inscrit le ${#temporals.format(profil.dateInscription, 'dd/MM/yyyy')}|"></p>
+    </section>
+</main>
+</body>
+</html>
